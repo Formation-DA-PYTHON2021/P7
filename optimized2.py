@@ -3,7 +3,7 @@ import csv
 import time
 
 start_time = time.time()
-fil = "data/dataset1_Python+P7.csv"
+fil = "data/dataset2_Python+P7.csv"
 
 def read_csv(fil):
     with open(fil, 'r') as csvfile:
@@ -17,7 +17,7 @@ def read_csv(fil):
     for line in Output:
         share = (
             line[0],
-            int(float(line[1])), # pour obtenir un nombre entier redivision en fin
+            int(float(line[1])),
             float(float(line[1]) * float(line[2])/100)
             )
         shares_list.append(share)
@@ -70,12 +70,11 @@ def main():
     print('Actions     | Coût par action| Bénéfice (après 2 ans)')
     for item in rep:
         print(f'{item[0]}  | {round((item[1]), 2)} €           | +{round(item[2], 2)} €         ')
-        cost.append(item[1]) #multiplication pour les besoins du calcul amont dc redivision
+        cost.append(item[1])
         profits.append(item[2])
     print(f"\nTotal cost : ", round((sum(cost)), 2), "€.")
     print(f"Profit after 2 years : +", round((sum(profits)), 2), "€.")
     print("\nTime elapsed : ", time.time() - start_time, "seconds")
-
 
 
 if __name__ == "__main__":
