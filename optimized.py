@@ -1,0 +1,78 @@
+from tqdm import tqdm
+import csv
+import time
+
+start_time = time.time()
+fil = "data/dataset1_Python+P7.csv"
+
+def main():
+    shares_list = read_csv(fil)
+    invest = 500
+    cost = []
+    profits = []
+    rep = algo_Dynamique(shares_list)
+    print(f"\nProcessing {len(shares_list)} shares for {invest}€ of investment :")
+    print(f"\nThe most profitable {len(rep)} shares are :\n")
+    for item in rep:
+        print(f'{item[0]} | {round((item[1]/100), 2)} € | +{round(item[2], 2)} €')
+        cost.append(item[1] / 100) #multiplication pour les besoins du calcul amont dc redivision
+        profits.append(item[2])
+    print(f"\nTotal cost : ", round((sum(cost)), 2), "€.")
+    print(f"Profit after 2 years : +", round((sum(profits)), 2), "€.")
+    print("\nTime elapsed : ", time.time() - start_time, "seconds")
+
+def read_csv(fil):
+    with open(fil, 'r') as csvfile:
+        elements = csv.reader(csvfile, delimiter=',')
+        headings = next(elements)
+        shares_list = []
+        Output = []
+        for row in elements:
+            Output.append(row[:])
+
+    for line in Output:
+        share = (
+            line[0],
+            int(float(line[1]) * 100), # pour obtenir un nombre entier redivision en fin
+            float(float(line[1]) * float(line[2])/100)
+            )
+        shares_list.append(share)
+    #print("shares_list", shares_list)
+    return shares_list
+
+
+
+def algo_Dynamique(shares_list):
+
+    invest = int(500*100)
+
+    n = len(shares_list) # total number of shares
+    cost = []
+    profit = []
+
+    for share in shares_list:
+        cost.append(share[1])
+        profit.append(share[2])
+# find optimal profit
+    matrice = [[0 for x in range(invest + 1)] for x in range(n + 1)]
+    for i in tqdm(range(1, n + 1)):
+        for w in range(1, invest + 1):
+            if cost[i-1] <= w:
+                matrice[i][w] = max(profit[i-1] + matrice[i-1][w-cost[i-1]], matrice[i-1][w])
+            else:
+                matrice[i][w] = matrice[i-1][w]
+
+    shares_best = []
+    while invest >= 0 and n >= 0:
+        e = shares_list[n-1]
+        if matrice[n][invest] == matrice[n-1][invest-cost[n-1]] + profit[n-1]:
+            shares_best.append(e)
+            invest -= cost[n-1]
+        n -= 1
+    print("shares_best :", len(shares_best))
+    print(type(shares_best))
+    return shares_best
+
+
+if __name__ == "__main__":
+    main()

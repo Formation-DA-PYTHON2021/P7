@@ -37,11 +37,10 @@ def read_csv():
 def main():
     shares_list = read_csv()
     max_invest = 500
-    print(f"\nProcessing {len(shares_list)} shares for {max_invest}€ :")
+    print(f"\nProcessing {len(shares_list)} shares for {max_invest}€ of investment :")
     print(f"\nThe most profitable {len(algo_ForceBrute(max_invest, shares_list)[1])} shares are :\n")
     for item in algo_ForceBrute(max_invest, shares_list)[1]:
         print(f'{item[0]} | {item[1]} € | +{item[2]} %')
-
     print(f'\nProfit after 2 years : + {calc_profits(algo_ForceBrute(max_invest,shares_list))}€.')
     print("\nTime elapsed : ", time.time() - start_time, "seconds")
 
