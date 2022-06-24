@@ -17,7 +17,7 @@ def read_csv(fil):
     for line in Output:
         share = (
             line[0],
-            int(float(line[1]) * 100), # pour obtenir un nombre entier redivision en fin
+            int(float(line[1])), # pour obtenir un nombre entier redivision en fin
             float(float(line[1]) * float(line[2])/100)
             )
         shares_list.append(share)
@@ -32,10 +32,7 @@ def clean_data(share_list):
             data_clean.append(i)
     return data_clean
 
-def algo_Dynamique(shares_list):
-
-    invest = int(500*100)
-
+def algo_Dynamique(invest, shares_list):
     n = len(shares_list) # total number of shares
     cost = []
     profit = []
@@ -67,12 +64,13 @@ def main():
     invest = 500
     cost = []
     profits = []
-    rep = algo_Dynamique(shares_clean)
+    rep = algo_Dynamique(invest, shares_clean)
     print(f"\nProcessing {len(shares_list)} shares for {invest}€ of investment :")
     print(f"\nThe most profitable {len(rep)} shares are :\n")
+    print('Actions     | Coût par action| Bénéfice (après 2 ans)')
     for item in rep:
-        print(f'{item[0]} | {round((item[1]/100), 2)} € | +{round(item[2], 2)} €')
-        cost.append(item[1] / 100) #multiplication pour les besoins du calcul amont dc redivision
+        print(f'{item[0]}  | {round((item[1]), 2)} €           | +{round(item[2], 2)} €         ')
+        cost.append(item[1]) #multiplication pour les besoins du calcul amont dc redivision
         profits.append(item[2])
     print(f"\nTotal cost : ", round((sum(cost)), 2), "€.")
     print(f"Profit after 2 years : +", round((sum(profits)), 2), "€.")
