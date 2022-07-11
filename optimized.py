@@ -3,8 +3,9 @@ import csv
 import time
 
 start_time = time.time()
-fil = "data/dataset1_Python+P7.csv"
-
+fil1 = "data/data_forcebrute_P7.csv"
+fil2 = "data/dataset1_Python+P7.csv"
+fil3 = "data/dataset2_Python+P7.csv"
 def read_csv(fil):
     with open(fil, 'r') as csvfile:
         elements = csv.reader(csvfile, delimiter=',')
@@ -62,7 +63,7 @@ def algo_Dynamique(shares_list):
     return shares_best
 
 def main():
-    shares_list = read_csv(fil)
+    shares_list = read_csv(fil1)
     shares_clean = clean_data(shares_list)
     invest = 500
     cost = []
@@ -70,6 +71,7 @@ def main():
     rep = algo_Dynamique(shares_clean)
     print(f"\nProcessing {len(shares_list)} shares for {invest}€ of investment :")
     print(f"\nThe most profitable {len(rep)} shares are :\n")
+    print('Actions     | Coût par action| Bénéfice (après 2 ans)')
     for item in rep:
         print(f'{item[0]} | {round((item[1]/100), 2)} € | +{round(item[2], 2)} €')
         cost.append(item[1] / 100) #multiplication pour les besoins du calcul amont dc redivision

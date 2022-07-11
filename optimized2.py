@@ -3,7 +3,9 @@ import csv
 import time
 
 start_time = time.time()
-fil = "data/dataset2_Python+P7.csv"
+fil1 = "data/data_forcebrute_P7.csv"
+fil2 = "data/dataset1_Python+P7.csv"
+fil3 = "data/dataset2_Python+P7.csv"
 
 def read_csv(fil):
     with open(fil, 'r') as csvfile:
@@ -17,7 +19,7 @@ def read_csv(fil):
     for line in Output:
         share = (
             line[0],
-            int(float(line[1])),
+            int(float(line[1])), # pour obtenir un nombre entier redivision en fin
             float(float(line[1]) * float(line[2])/100)
             )
         shares_list.append(share)
@@ -59,7 +61,7 @@ def algo_Dynamique(invest, shares_list):
     return shares_best
 
 def main():
-    shares_list = read_csv(fil)
+    shares_list = read_csv(fil1)
     shares_clean = clean_data(shares_list)
     invest = 500
     cost = []
@@ -72,8 +74,8 @@ def main():
         print(f'{item[0]}  | {round((item[1]), 2)} €           | +{round(item[2], 2)} €         ')
         cost.append(item[1])
         profits.append(item[2])
-    print(f"\nTotal cost : ", round((sum(cost)), 2), "€.")
-    print(f"Profit after 2 years : +", round((sum(profits)), 2), "€.")
+    print(f"\nTotal cost : ", round((sum(cost)), 2), "€")
+    print(f"Profit after 2 years : +", round((sum(profits)), 2), "€")
     print("\nTime elapsed : ", time.time() - start_time, "seconds")
 
 

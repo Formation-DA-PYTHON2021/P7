@@ -5,7 +5,7 @@ start_time = time.time()
 
 def algo_ForceBrute(invest, shares, shares_selection=[]):
     if shares:
-        val1, lstVal1 = algo_ForceBrute(invest, shares[1:], shares_selection)
+        val1, lstVal1 = algo_ForceBrute(invest, shares[1:], shares_selection) # notion de recussion
         val = shares[0]
         if val[1] <= invest:
             val2, lstVal2 = algo_ForceBrute(invest - val[1], shares[1:], shares_selection + [val])
@@ -26,6 +26,7 @@ def calc_profits(share_selection):
 def read_csv():
     with open("data/data_forcebrute_P7.csv", 'r') as csvfile:
         elements = csv.reader(csvfile, delimiter=',')
+        headings = next(elements)
         shares_list = []
         for line in elements:
             shares_list.append(
